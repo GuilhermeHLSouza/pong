@@ -2,7 +2,7 @@ body{
     margin: 0; /*remove margem de cima*/
     padding: 0; /*remove espaçamento na esquerda*/
 
-    background-color: rgb(21, 0, 212);
+    background-color: rgb(0, 0, 0);
 }
 
 canvas{
@@ -13,6 +13,6 @@ canvas{
     left: 0; /*centraliza horizontalmente*/
     right: 0; /* ^ */
 
-    background-color: rgb(16, 107, 21);
+    background-color: rgb(20, 41, 58);
 
 }
