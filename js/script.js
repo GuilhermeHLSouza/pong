@@ -19,7 +19,8 @@ let bola = {
     py : 325, //posição do objeto no eixo y
     tx : 30, //largura do objeto
     ty : 30, //altura do objeto
-    dir : 8,
+    dirx : 8,
+    diry : 0,
 }
 
 quadro.font = "40px Arial"
@@ -36,6 +37,21 @@ let jogador2 = {
     px : 800,
     py : 40,
 }
+
+function pontos(){
+    jogador1 = {
+        txt : `Jogador 1:${pts1}`,
+        px : 250,
+        py : 40,
+    }
+    jogador2 = {
+        txt : `Jogador 2:${pts2}`,
+        px : 800,
+        py : 40,
+    }
+}
+
+
 document.addEventListener("keydown", function(e){
     if(e.key == "w"){
         player1.py -=5
@@ -43,6 +59,7 @@ document.addEventListener("keydown", function(e){
     else if(e.key == "s"){
         player1.py +=5
     }
+
 })
 document.addEventListener("keydown", function(e){
     if(e.key == "ArrowUp"){
@@ -59,36 +76,77 @@ function draw(){
     quadro.fillText(jogador1.txt, jogador1.px, jogador1.py)
     quadro.fillText(jogador2.txt, jogador2.px, jogador2.py)
 }
+function mover(){
+    if(player1.py - 30 <= 20){
+        player1.py += 9
+    }
+    else if(player1.py + 200 > 720){
+        player1.py -= 9
+    }
+    if(player2.py - 30 <= 20){
+        player2.py += 9
+    }
+}
 
 function moverBola(){
-    bola.px += bola.dir
-     if(bola.px == player2.px && bola.py > player2.py - 30 && bola.py < player2.py +200){
-        bola.dir = -8
-    }
-    else if(bola.px < 0){
-        bola.dir = 8
+    bola.px += bola.dirx
+    bola.py += bola.diry
+     if(bola.px < 0){
+        bola.dirx = 6       
+        //bola.px = 600 
         pts1++
-        bola.px = 600
-    }
-
-    if(bola.px == player1.px && bola.py > player1.py - 30  && bola.py < player1.py +200){
-        bola.dir = 8
+        pontos()
     }
     else if(bola.px > 1280){
-        bola.px = 600
-        bola.dir = -8 
+        //bola.px = 600
+        bola.dirx = -6 
+        pts2 ++
+        pontos()
+        bola.diry = Math.floor(Math.random() * 10)
+        
     }
-    
+
+    if(bola.py > 710){
+        bola.diry = -2
+    }
+    else if(bola.py < 0){
+        bola.diry = 2
+    }
+
+
+
+}
+
+function colisao(){
+    if(bola.px == player1.px && bola.py > player1.py - 30  && bola.py < player1.py +200){
+        bola.dirx = 6
+    }
+
+    if(bola.px == player2.px && bola.py > player2.py -30 && bola.py < player2.py +200){
+        bola.dirx = -6
+    }
+}
+
+function mover(){
+    if(player1.py - 30 <= 20){
+        player1.py += 9
+    }
+    else if(player1.py - 200 > 320){
+        player1.py -= 9
+    }
+    if(player2.py - 30 <= 20){
+        player2.py += 9
+    }
+
 }
 
 function main(){
     quadro.clearRect(0,0,1280,720) //apaga a tela toda, para que ela seja redesenhada
-    
+    mover()
     draw()
     moverBola() 
-
+    colisao()
+    //console.log(bola.diry)
 }
 
 setInterval(main, 10) //executa a função main a cada 10 milissegundos
-
-
